@@ -1,0 +1,74 @@
+body{
+    font-family: 'Josefin Sans', sans-serif;
+    }
+
+.myDiv{
+
+    z-index: 1;
+    opacity : 0.75;
+}
+
+
+.signbtn:hover{
+background-color : #1565c0 !important;
+}
+@media screen and (max-width : 992px){
+        .content{
+        height : 100% !important;
+        width : 100%;
+        overflow-x : hidden;
+
+        }
+        .content h1{
+            font-size : 50px;
+        }
+        .heading-title{
+        font-size:50px !important;
+        }
+        .heading-text{
+        font-size:30px !important;
+        }
+}
+@media screen and (max-width : 502px){
+        .content{
+        height : 100% !important;
+        width : 100%;
+        overflow-x : hidden;
+
+        }
+        .content h1{
+            font-size : 30px;
+        }
+        .content h2{
+            font-size : 25px;
+        }
+
+
+}
+@media screen and (max-width : 802px){
+        .ppe{
+        font-size : 20px;
+        }
+
+
+}
+@media screen and (min-width : 1170px){
+    .signupimage{
+        position : fixed;
+    }
+
+}
+
+.requestbtn{
+transition : 0.1s ease;
+}
+.editbtn{
+transition : 0.1s ease;
+}
+.requestbtn:hover{
+    background-color : #0d47a1 !important;
+}
+.editbtn:hover{
+    background-color : #1565c0;
+    color : #fff !important;
+}
