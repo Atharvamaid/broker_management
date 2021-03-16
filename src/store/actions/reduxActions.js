@@ -15,21 +15,21 @@ export const setCurrentUser = (user)=>({
 
 export const  signOut = () =>{
 
-    return (dispatch, getState)=>{
+    return async (dispatch, getState) =>{
         //make async call to database
         
-        auth.signOut().then(() => {
-            
-          });
+        const data = await auth.signOut();
+        
+        console.log("user logged out",data);
     }
 }
 
 export const loginUser = (user) =>{
 
-        return (dispatch, getState)=>{
+        return async (dispatch, getState)=>{
             //make async call to database
             
-            auth.signInWithEmailAndPassword(user.email,user.password).then((docref)=>{
+            await auth.signInWithEmailAndPassword(user.email,user.password).then((docref)=>{
                 
                 console.log("doc ref " + docref);
                 dispatch({type : "IS_LOADING"})
@@ -41,8 +41,8 @@ export const loginUser = (user) =>{
 };
 
 export const createBroker = (broker) =>{
-    return (dispatch, getState)=>{
-            auth.createUserWithEmailAndPassword(broker.email, broker.password).then((docRef)=>{
+    return async (dispatch, getState)=>{
+           await auth.createUserWithEmailAndPassword(broker.email, broker.password).then((docRef)=>{
                 docRef.user.updateProfile({
                     displayName : "Broker"
                 }).then((ref)=>{
@@ -61,14 +61,43 @@ export const createBroker = (broker) =>{
             }).catch((error)=>{
                 console.log("erorr in creating broker ",error);
             });
+
+            
+    }
+}
+
+export const submitOrderForm = (rawMaterials,Plates) =>{
+    
+    return async (dispatch,getState) => {
+       await firestore.collection("Orders_PlacedBy_Anucool_Industry").add({
+           rawMaterials : rawMaterials,
+           Plates : Plates
+       });
+        rawMaterials.brokers.forEach((val)=>{
+            const Brokers = firestore.collection("Brokers");
+            Brokers.where("Name", '==',val).get().then((Ref)=>{
+                Ref.forEach((data)=>{
+                    let rawMat = rawMaterials;
+                    delete rawMat.brokers;
+                    Brokers.doc(data.id).update(
+                        {
+                            order_Received : rawMat
+                        }
+                    );
+                    console.log("successfully added data");
+                });
+            });
+            
+        });
+        
     }
 }
 
 export const createUser =  (user) =>  {
-    return (dispatch, getState, ) =>  {
+    return async (dispatch, getState, ) =>  {
             //make async call to database
             
-           auth.createUserWithEmailAndPassword(user.email,user.password).then((docref)=> {
+           await auth.createUserWithEmailAndPassword(user.email,user.password).then((docref)=> {
             
             docref.user.updateProfile({
                 displayName:"Employee " + user.name

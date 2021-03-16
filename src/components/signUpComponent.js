@@ -54,14 +54,14 @@ class SignUp extends Component {
             password : ""
         });
     }
-    handleBrokerSubmit = (e)=>{
+    handleBrokerSubmit = async (e)=>{
         e.preventDefault();
         const broker = {
             name : this.state.broker_name,
             email : this.state.broker_email,
             password : this.state.broker_password
         }
-        this.props.createBroker(broker);
+        await this.props.createBroker(broker);
         this.setState({loading:"signing you in"});
         
         this.setState({
@@ -69,6 +69,7 @@ class SignUp extends Component {
             broker_email : "",
             broker_password : ""
         });
+        
     }
 
     render(){

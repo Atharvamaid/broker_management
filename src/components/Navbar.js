@@ -23,8 +23,8 @@ function SignedInLinks(props) {
         return(
             <div className="container-fluid">
                 <ul class="navbar-nav ml-3">
-                <a class="nav-item nav-link mx-3" href="/dashboard" >Dashboard</a>
-                <NavLink to="/order"></NavLink>
+                <NavLink class="nav-item nav-link mx-3" to="/dashboard/Anucool" >Dashboard</NavLink>
+                <NavLink className="nav-item nav-link mx-2" to="/dashboard/Anucool/place_order">Place Order</NavLink>
         </ul>
         <ul className="navbar-nav ml-auto">
             <a className="nav-item nav-link mx-3" href="/track-order">Track Order</a>
@@ -52,7 +52,7 @@ function Navbar(props) {
         console.log("user logged out");
         props.signOut();
         props.history.push('/');
-        window.location.reload(); 
+        setTimeout(window.location.reload(),1000);
         
     }
     

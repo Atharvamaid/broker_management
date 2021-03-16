@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {setCurrentUser} from './store/actions/reduxActions';
 import SignUp from './components/signUpComponent';
 import Main from './components/MainComponent';
+import PlaceOrder from './components/Anucool/placeOrder.js';
 import AnucoolDashboard from './components/Anucool/dashboard';
 import BrokerDashboard from './components/broker/dashboard';
 import Navbar from "./components/Navbar";
@@ -20,10 +21,10 @@ import {
 function App(props) {
 
   useEffect(()=>{
-    auth.onAuthStateChanged(async (user)=>{
+    auth.onAuthStateChanged( (user)=>{
       if(user){
         console.log("user is signed in");
-        props.setCurrentUser(user);
+       props.setCurrentUser(user);
         console.log("user is set ");
       }
       else{
@@ -55,9 +56,10 @@ function App(props) {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path='/dashboard/Anucool' component={AnucoolDashboard} />
+          <Route exact path ="/dashboard/Anucool/place_order" component={PlaceOrder} />
           <Route exact path='/dashboard/Broker' component={BrokerDashboard} />
         </Switch>
-        {props.user.displayName==='Broker'?<Redirect to="/dashboard/Broker"/>:<Redirect to="/dashboard/Anucool"/>}
+        <h1>{props.user.displayName.split(" ")[0]==='Employee'?<Redirect to="/dashboard/Anucool/" />:<Redirect to="/dashboard/Broker" />}</h1>
       </div>
     );
   }
