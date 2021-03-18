@@ -56,14 +56,13 @@ class SignUp extends Component {
     }
     handleBrokerSubmit = async (e)=>{
         e.preventDefault();
+        this.setState({loading:"signing you in"});
         const broker = {
             name : this.state.broker_name,
             email : this.state.broker_email,
             password : this.state.broker_password
         }
         await this.props.createBroker(broker);
-        this.setState({loading:"signing you in"});
-        
         this.setState({
             broker_name : "",
             broker_email : "",

@@ -8,6 +8,11 @@ export const unSetLoader = ()=>({
     type : 'IS_LOADED'
 })
 
+export const setDisplayName = (displayName)=>({
+    type : 'DISPLAY_NAME_SET',
+    payload : displayName
+})
+
 export const setCurrentUser = (user)=>({
     type:'SET_CURRENT_USER',
     payload : user
@@ -30,7 +35,7 @@ export const loginUser = (user) =>{
             //make async call to database
             
             await auth.signInWithEmailAndPassword(user.email,user.password).then((docref)=>{
-                
+                dispatch({type : 'DISPLAY_NAME_SET',payload : docref.user.displayName})
                 console.log("doc ref " + docref);
                 dispatch({type : "IS_LOADING"})
             
@@ -51,7 +56,7 @@ export const createBroker = (broker) =>{
                     console.log("error ",error);
                 });
 
-                db.collection("Brokers").doc(docRef.user.uid).set({
+              db.collection("Brokers").doc(docRef.user.uid).set({
                     Name : broker.name
                 }).then((ref)=>{
                     console.log("broker created at firestore")
@@ -103,6 +108,7 @@ export const createUser =  (user) =>  {
                 displayName:"Employee " + user.name
             }).then((ref)=>{
                 console.log("dislay name changed");
+                dispatch({type : 'DISPLAY_NAME_SET', payload : "Employee "+user.name});
             }).catch((error)=>{
                 console.log("error ", error);
             });

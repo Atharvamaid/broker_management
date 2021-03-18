@@ -60,9 +60,7 @@ class SignIn extends Component {
         })
 
     }
-    componentDidMount = ()=>{
-        console.log("component did mount proos ",this.props)
-    }
+    
 
     toggle = tab => {
         if(this.state.activeTab !== tab) this.setState({activeTab : tab});

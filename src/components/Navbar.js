@@ -1,38 +1,53 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import './css/main.css';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import { signOut } from '../store/actions/reduxActions';
 import { withRouter } from "react-router-dom";
 function SignedInLinks(props) {
-    if(props.user.displayName==="Broker"){
-        return(
-            <div className="container-fluid">
-                <ul class="navbar-nav ml-3">
-                <a class="nav-item nav-link mx-3" href="/dashboard" >Dashboard</a>
-        </ul>
-        <ul className="navbar-nav ml-auto">
-            <a className="nav-item nav-link mx-3" href="/track-order">Broker</a>
-                <a onClick={props.signout}  class=" nav-item nav-link mx-3" style={{color:"#1565c0", fontSize:"17px", cursor:"pointer"}} >Logout </a>
-        </ul>
-            </div>
-        );
+    return (
+        <div className="container-fluid">
         
-    }
-    else{
-        return(
-            <div className="container-fluid">
-                <ul class="navbar-nav ml-3">
-                <NavLink class="nav-item nav-link mx-3" to="/dashboard/Anucool" >Dashboard</NavLink>
+            {props.user.displayName && props.user.displayName.split(" ")[0]==="Employee"?<div className="container-fluid">
+                 <ul class="navbar-nav ml-3">
+               <NavLink className="nav-item nav-link mx-3" to="/dashboard/Anucool" >Dashboard</NavLink>
                 <NavLink className="nav-item nav-link mx-2" to="/dashboard/Anucool/place_order">Place Order</NavLink>
-        </ul>
-        <ul className="navbar-nav ml-auto">
-            <a className="nav-item nav-link mx-3" href="/track-order">Track Order</a>
-                <a onClick={props.signout}  class=" nav-item nav-link mx-3" style={{color:"#1565c0", fontSize:"17px", cursor:"pointer"}} >Logout </a>
-        </ul>
-            </div>
-        );
-    }
+                </ul>
+                <ul className="navbar-nav ml-auto">
+                 <a onClick={props.signout}  class=" nav-item nav-link mx-3" style={{color:"#1565c0", fontSize:"17px", cursor:"pointer",textDecoration : "none"}} >Logout </a>
+                </ul>
+         </div>:<div className="container-fluid">
+                <ul class="navbar-nav ml-3">
+                        <a className="nav-item nav-link mx-3" href="/dashboard/Broker" >Dashboard</a>
+                        <a className="nav-item nav-link mx-3" href="/dashboard/Broker">Received Orders</a>
+                </ul>
+                <ul className="navbar-nav ml-auto">
+                 <a onClick={props.signout}  class=" nav-item nav-link mx-3" style={{color:"#1565c0", fontSize:"17px", cursor:"pointer",textDecoration : "none"}} >Logout </a>
+                </ul>
+             </div>}
+        </div>
+    );
+    // if(props.user.displayName.split(" ")[0]==="Employee"){
+    //     return(
+    //         <div className="container-fluid">
+                 
+    //     <ul className="navbar-nav ml-auto">
+    //         <a className="nav-item nav-link mx-3" href="/track-order">Track Order</a>
+    //             <a onClick={props.signout}  class=" nav-item nav-link mx-3" style={{color:"#1565c0", fontSize:"17px", cursor:"pointer"}} >Logout </a>
+    //     </ul>
+    //         </div>
+    //     );
+        
+    // }
+    // else{
+    //     return(
+    //         <div className="container-fluid">
+                 
+    //     
+    //         </div>
+    //     );
+    // }
 }
 
 function SignedOutLinks(props) {
@@ -48,11 +63,11 @@ function Navbar(props) {
     
     
 
-    const signout = ()=>{
+    const signout =async ()=>{
         console.log("user logged out");
-        props.signOut();
+        await props.signOut();
         props.history.push('/');
-        setTimeout(window.location.reload(),1000);
+        setInterval(window.location.reload(),7000);
         
     }
     
@@ -68,7 +83,7 @@ function Navbar(props) {
 </button>
 <div class="navbar-collapse collapse " id="navres">
         
-        {props.user?<SignedInLinks user={props.user} signout={signout}/>:<SignedOutLinks/>}
+        {props.user?<SignedInLinks user = {props.user} signout={signout}/>:<SignedOutLinks/>}
 
     </div>
     </nav>
@@ -78,7 +93,7 @@ function Navbar(props) {
 
 const mapStateToProps = (state)=>{
     return {
-        user : state.auth.user
+        user : state.auth.user,
     }
 }
 

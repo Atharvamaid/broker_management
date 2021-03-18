@@ -1,6 +1,7 @@
 
  const initState = {
-    user: null
+    user: null,
+    displayName : null
 }
 
 const authReducer = (state=initState, action)=>{
@@ -11,6 +12,11 @@ const authReducer = (state=initState, action)=>{
                 ...state,
                 user : action.payload,
             }
+            case 'DISPLAY_NAME_SET':
+                return {
+                    ...state,
+                    displayName : action.payload
+                }
         default:
             return state
     }

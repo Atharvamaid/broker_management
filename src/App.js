@@ -1,6 +1,7 @@
 import './App.css';
 import {connect} from 'react-redux'
-import {setCurrentUser} from './store/actions/reduxActions';
+import {setCurrentUser,setDisplayName} from './store/actions/reduxActions';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import SignUp from './components/signUpComponent';
 import Main from './components/MainComponent';
 import PlaceOrder from './components/Anucool/placeOrder.js';
@@ -8,7 +9,7 @@ import AnucoolDashboard from './components/Anucool/dashboard';
 import BrokerDashboard from './components/broker/dashboard';
 import Navbar from "./components/Navbar";
 import SignIn from './components/signInComponent';
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import {auth} from './firebase/FirebaseConfig';
 import {
   Switch,
@@ -20,21 +21,25 @@ import {
 
 function App(props) {
 
-  useEffect(()=>{
-    auth.onAuthStateChanged( (user)=>{
+    const [currentUser,setUser] = useState(null);
+  useEffect(async()=>{
+    auth.onAuthStateChanged(async (user)=>{
       if(user){
-        console.log("user is signed in");
-       props.setCurrentUser(user);
-        console.log("user is set ");
+        setUser(user);
+        await props.setDisplayName(user.displayName);
+        console.log("props dislayname",props.displayName);
+       await props.setCurrentUser(user);
+      
       }
       else{
-        console.log("user is signed out");
+      
+        console.log("props displayname ",props.displayName)
       }
-    })
-  },[]);
+    });
+    
+  },[currentUser]);
 
   
-  console.log("app.js invoked props are ", props);
 
   if(props.user===null){
     return (
@@ -52,14 +57,15 @@ function App(props) {
   else{
     return (
       <div>
-        <Navbar/>
+        <Navbar currentUser={currentUser}/>
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path='/dashboard/Anucool' component={AnucoolDashboard} />
           <Route exact path ="/dashboard/Anucool/place_order" component={PlaceOrder} />
           <Route exact path='/dashboard/Broker' component={BrokerDashboard} />
         </Switch>
-        <h1>{props.user.displayName.split(" ")[0]==='Employee'?<Redirect to="/dashboard/Anucool/" />:<Redirect to="/dashboard/Broker" />}</h1>
+        {props.displayName===null && <CircularProgress/>}
+        {props.displayName && props.displayName.split(" ")[0]==="Employee"?<Redirect to="/dashboard/Anucool"/>:<Redirect to="/dashboard/Broker"/>}
       </div>
     );
   }
@@ -67,12 +73,14 @@ function App(props) {
 
 const mapStateToProps = (state) =>{
   return {
-    user : state.auth.user
+    user : state.auth.user,
+    displayName : state.auth.displayName
   }
 }
 const mapDispatchToProps = (dispatch) =>{
   return {
-    setCurrentUser :(user)=> dispatch(setCurrentUser(user))
+    setCurrentUser :(user)=> dispatch(setCurrentUser(user)),
+    setDisplayName : (displayName) => dispatch(setDisplayName(displayName))
   }
 }
 

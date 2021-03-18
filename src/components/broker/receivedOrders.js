@@ -7,10 +7,7 @@ const ReceivedOrders = (props) => {
     return (
         <div>
             <h3 className="mb-3">Orders Received</h3>
-            <div className="d-flex justify-content-center">
-            {props.orders===null&&<CircularProgress />}
-
-            </div>
+            
             {props.orders && <div className="conatiner">
                 <div className="card p-2">
                     <div className="row">
