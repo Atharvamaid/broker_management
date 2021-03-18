@@ -78,6 +78,7 @@ class SignIn extends Component {
                     <Nav style={{width:"100%"}} tabs>
                 <NavItem>
                   <NavLink
+                  style={{cursor:"pointer"}}
                     className={classnames({ active: this.state.activeTab === '1' })}
                     onClick={() => { this.toggle('1'); }}
                   >
@@ -86,6 +87,7 @@ class SignIn extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink
+                  style={{cursor:"pointer"}}
                     className={classnames({ active: this.state.activeTab === '2' })}
                     onClick={() => { this.toggle('2'); }}
                   >

@@ -1,0 +1,19 @@
+
+  .order{
+    outline: 2px solid rgb(7, 27, 58);
+    text-align:center;
+    padding: 50px 40px;
+    width: 80%;
+  }
+  #Top{
+      display:flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+
+  }
+  #body{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}

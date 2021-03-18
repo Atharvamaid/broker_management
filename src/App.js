@@ -1,12 +1,12 @@
 import './App.css';
 import {connect} from 'react-redux'
 import {setCurrentUser,setDisplayName} from './store/actions/reduxActions';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import SignUp from './components/signUpComponent';
 import Main from './components/MainComponent';
 import PlaceOrder from './components/Anucool/placeOrder.js';
 import AnucoolDashboard from './components/Anucool/dashboard';
 import BrokerDashboard from './components/broker/dashboard';
+import ConfirmedOrders from './components/broker/confirmedOrders';
 import Navbar from "./components/Navbar";
 import SignIn from './components/signInComponent';
 import React, {useEffect,useState} from 'react';
@@ -63,9 +63,12 @@ function App(props) {
           <Route exact path='/dashboard/Anucool' component={AnucoolDashboard} />
           <Route exact path ="/dashboard/Anucool/place_order" component={PlaceOrder} />
           <Route exact path='/dashboard/Broker' component={BrokerDashboard} />
+          <Route exact path='/dashboard/Broker/confirmedOrders' component={ConfirmedOrders} />
         </Switch>
-        {props.displayName===null && <CircularProgress/>}
-        {props.displayName && props.displayName.split(" ")[0]==="Employee"?<Redirect to="/dashboard/Anucool"/>:<Redirect to="/dashboard/Broker"/>}
+        
+        {props.displayName && <div>
+          {props.displayName.split(" ")[0]==="Employee"?<Redirect to="/dashboard/Anucool"/>:<Redirect to="/dashboard/Broker"/>}
+        </div>}
       </div>
     );
   }
