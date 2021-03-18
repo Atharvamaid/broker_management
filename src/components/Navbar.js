@@ -19,8 +19,8 @@ function SignedInLinks(props) {
                 </ul>
          </div>:<div className="container-fluid">
                 <ul class="navbar-nav ml-3">
-                        <a className="nav-item nav-link mx-3" href="/dashboard/Broker" >Dashboard</a>
-                        <a className="nav-item nav-link mx-3" href="/dashboard/Broker">Received Orders</a>
+                        <NavLink className="nav-item nav-link mx-3" to="/dashboard/Broker" >Dashboard</NavLink>
+                        
                 </ul>
                 <ul className="navbar-nav ml-auto">
                  <a onClick={props.signout}  class=" nav-item nav-link mx-3" style={{color:"#1565c0", fontSize:"17px", cursor:"pointer",textDecoration : "none"}} >Logout </a>
@@ -77,7 +77,7 @@ function Navbar(props) {
         
 <nav class="navbar navbar-expand-lg sticky-top navbar-light" style={{backgroundColor:"#f2f2f2", height:"70px"}}>
 
-<a class="navbar-brand mr-3 " href="/" ><img alt="img" style={{maxWidth:"140px"}} src="/assets/logo.png" /></a>
+<NavLink class="navbar-brand mr-3 " to="/" ><img alt="img" style={{maxWidth:"140px"}} src="/assets/logo.png" /></NavLink>
 <button class="navbar-toggler" data-toggle="collapse" data-target="#navres">
 <span class="navbar-toggler-icon"></span>
 </button>

@@ -12,6 +12,11 @@ const authReducer = (state=initState, action)=>{
                 ...state,
                 user : action.payload,
             }
+        case 'UNSET_USER':
+            return {
+                ...state,
+                user : null
+            }
             case 'DISPLAY_NAME_SET':
                 return {
                     ...state,

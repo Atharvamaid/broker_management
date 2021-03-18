@@ -24,7 +24,7 @@ export const  signOut = () =>{
         //make async call to database
         
         const data = await auth.signOut();
-        
+        dispatch({type:'UNSET_USER'})
         console.log("user logged out",data);
     }
 }
@@ -52,6 +52,7 @@ export const createBroker = (broker) =>{
                     displayName : "Broker"
                 }).then((ref)=>{
                     console.log("displayname changed");
+                    dispatch({type : 'DISPLAY_NAME_SET', payload : "Broker"});
                 }).catch((error)=>{
                     console.log("error ",error);
                 });

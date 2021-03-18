@@ -1,32 +1,39 @@
 import React from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {connect} from 'react-redux';
+import './css/ordersReceived.css';
+
 const ReceivedOrders = (props) => {
 
     
     return (
-        <div>
-            <h3 className="mb-3">Orders Received</h3>
+        <div className="container">
+            <h3 className="mb-3 ">Orders Received</h3>
             
-            {props.orders && <div className="conatiner">
-                <div className="card p-2">
-                    <div className="row">
-                        <div className="col-md-3">
-                            <h5>Order-No - {props.orders.orderNo}</h5>
-                        </div>
-                        <div className="col-md-3">
-                            <h5>Material Name - {props.orders.materialName}</h5>
-                        </div>
-                        <div className="col-md-3">
-                        <h5>Quantity - {props.orders.quantity}</h5>
-                        </div>
-                        <div className="col-md-3">
-                        <h5>Size - {props.orders.size}</h5>
-                        </div>
-                    </div>
-                </div>
+            {props.orders && <div className="order" id="a">
+      <div id="table">
+      <div id="Top">
+        <p className="font-weight-bold">Order No : {props.orders.orderNo}</p>
+        <p className="font-weight-bold">Material : {props.orders.materialName}</p>
+        <p className="font-weight-bold">Date : {props.orders.date}</p>
+      </div>
+    <br/>
+        <div id="body">
+        {Object.keys(props.orders).map((val)=>{
+            if (val!=='orderNo' && val!=='materialName' &&val!=='date')
+                return (<p >{val}  - {props.orders[val]}</p>);
+        })}
+            
 
-            </div>}
+        </div>
+    
+    
+    <br/>
+    </div>
+    <button className="button mx-3">Price</button>
+    <input type="button" className="button mx-3" value="Send Price" />
+    <button className="button mx-3 ">Chat</button>
+    <br/>
+    </div>}
         </div>
     );
 }

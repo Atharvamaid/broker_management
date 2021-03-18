@@ -1,24 +1,30 @@
 import React, {Component} from 'react';
 import classnames from 'classnames';
 import './css/main.css';
+import {Link} from 'react-router-dom';
 import {createUser, createBroker} from '../store/actions/reduxActions';
 import {connect} from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row } from 'reactstrap';
+
+
 class SignUp extends Component {
     
     constructor(props){
         super(props);
         this.state = {
             loading: "",
+            error : false,
             activeTab : "1",
             name : '',
             email : '',
             password : '',
+            confpass : "",
             category : '',
             broker_name:"",
             broker_email:"",
-            broker_password : ""
+            broker_password : "",
+            broker_confpass : ""
 
         }
 
@@ -40,6 +46,11 @@ class SignUp extends Component {
     }
     handleAnucoolSubmit = (e)=>{
         e.preventDefault();
+        if(this.state.password!==this.state.confpass){
+            this.setState({error:true});
+            return;
+        }
+
         const user = {
             name : this.state.name,
             email : this.state.email,
@@ -56,6 +67,10 @@ class SignUp extends Component {
     }
     handleBrokerSubmit = async (e)=>{
         e.preventDefault();
+        if(this.state.broker_password!==this.state.broker_confpass){
+            this.setState({error : true});
+            return ;
+        }
         this.setState({loading:"signing you in"});
         const broker = {
             name : this.state.broker_name,
@@ -83,6 +98,7 @@ class SignUp extends Component {
                     <Nav tabs>
                 <NavItem>
                   <NavLink
+                  style={{cursor:"pointer"}}
                     className={classnames({ active: this.state.activeTab === '1' })}
                     onClick={() => { this.toggle('1'); }}
                   >
@@ -91,6 +107,7 @@ class SignUp extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink
+                  style={{cursor:"pointer"}}
                     className={classnames({ active: this.state.activeTab === '2' })}
                     onClick={() => { this.toggle('2'); }}
                   >
@@ -101,7 +118,7 @@ class SignUp extends Component {
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
                   <Row className="p-3">
-                  <form onSubmit={this.handleAnucoolSubmit} class="signup pr-5" method="POST">
+                  <form id="form" onSubmit={this.handleAnucoolSubmit} class="signup pr-5" method="POST">
                     
                     <fieldset>
                         <legend>Create Anucool Employee Account</legend>
@@ -122,13 +139,13 @@ class SignUp extends Component {
                         <div class="form-group">
                             <label for="confpass">Confirm Password : </label>
                             <input onChange={this.handleChange} type="password" class="form-control" id="confpass" name="confpass" placeholder="Re-enter password" required />
-                            <div class="registrationFormAlert" style={{color:"red"}} id="CheckPasswordMatch"></div>
+                            <div class="registrationFormAlert" style={{color:"red"}} id="CheckPasswordMatch">{this.state.error?<p>Password and Confirm Password doesn't matches</p>:<p></p>}</div>
                         </div>
                     </fieldset>
                     <div class="">
                         <button class="btn btn-primary" type="submit" style={{width:"100px"}}>Sign Up</button>
                     </div>
-                    <small >Already had an account ? <a href="{% url 'login' %}">Login</a></small>
+                    <small >Already had an account ? <Link to="/signin">Login</Link></small>
                 </form>
                   </Row>
                 </TabPane>
@@ -154,7 +171,8 @@ class SignUp extends Component {
                                 </div>
                                 <div class="form-group">
                                     <label for="supconfpass">Confirm Password : </label>
-                                    <input onChange={this.handleChange} type="password" class="form-control" id="pass" name="supconfpass" placeholder="Re-enter password" required />
+                                    <input onChange={this.handleChange} type="password" class="form-control" id="broker_confpass" name="supconfpass" placeholder="Re-enter password" required />
+                                    <div class="registrationFormAlert" style={{color:"red"}} id="CheckPasswordMatch">{this.state.error?<p>Password and Confirm Password doesn't matches</p>:<p></p>}</div>
                                 </div>
                             </fieldset>
                             <div class="">
@@ -182,10 +200,12 @@ class SignUp extends Component {
     }
     
 }
+
+
+
 const mapStateToProps = (state) => {
     return {
         auth : state.auth.user,
-        
     }
 }
 

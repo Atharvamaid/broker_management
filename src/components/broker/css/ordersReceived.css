@@ -1,0 +1,43 @@
+.button {
+    background-color: #0474c4;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 15px;
+    transition: 0.2s ease;
+  }
+  .button:hover{
+    background-color: #0865a8;
+  }
+  
+  
+  .order{
+    outline: 1.8px solid #0073C5;
+    text-align:center;
+    padding: 50px 40px;
+  
+    
+  }
+  #Top{
+      display:flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+
+  }
+  #body{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+ p{
+   font-size: large;
+ } 
+  
